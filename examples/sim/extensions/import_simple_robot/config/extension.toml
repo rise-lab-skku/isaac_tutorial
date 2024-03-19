@@ -1,0 +1,25 @@
+[core]
+reloadable = true
+order = 0
+
+[package]
+version = "1.0.0"
+category = "Simulation"
+title = "import_simple_robot"
+description = ""
+authors = ["Jeongmin Jeon"]
+repository = ""
+keywords = []
+changelog = "docs/CHANGELOG.md"
+readme = "docs/README.md"
+preview_image = "data/simple_robot_extension.png"
+icon = "data/rise.png"
+
+
+[dependencies]
+"omni.kit.uiapp" = {}
+"omni.isaac.ui" = {}
+"omni.isaac.core" = {}
+
+[[python.module]]
+name = "import_simple_robot_python"
