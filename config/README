@@ -1,0 +1,40 @@
+Extend CFG
+IsaacLab/source/extensions/omni.isaac.lab_assets/omni/isaac/lab_assets
+*gripper.py, universal_robot.py 추가 했습니다.
+
+Main code:
+IsaacLab/source/standalone/environments/state_machine/lift_cube.py
+
+Lift Cube Environment CFG:
+IsaacLab/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/manipulation/lift/lift_env_cfg.py
+
+LIft Cube Scene CFG:
+IsaacLab/source/extensions/omni.isaac.lab/omni/isaac/lab/scene/interactive_scene.py
+
+Lift Cube Robot CFG:
+IsaacLab/source/extensions/omni.isaac.lab_tasks/omni/isaac/lab_tasks/manager_based/manipulation/lift/config
+
+Directory structure
+
+manipulation
+ ㄴ lift
+     ㄴ config
+     ㄴ lift_env_cfg.py
+     
+*config 에서 ur10, ur10_bh, ur10_surface가 추가되어 폴더를 첨부했습니다.
+**interactive_scene의 __init__에서 assembly part 추가됐습니다.
+
+Gripper Action
+IsaacLab/source/extensions/omni.isaac.lab/omni/isaac/lab/envs/mdp/actions
+* gripper를 open/close command로 조작하게 gripper_actions.py 추가했습니다.
+
+
+실행 방법
+
+One URDF
+./isaaclab.sh -p source/standalone/environments/state_machine/lift_cube.py --cpu --num_envs 1 --task_name Isaac-Lift-Cube-UR10-Barrett-IK-Abs-v0 --livestream 1
+
+Assembly
+./isaaclab.sh -p source/standalone/environments/state_machine/lift_cube.py --cpu --num_envs 1 --task_name Isaac-Lift-Cube-UR10-IK-Abs-v0 --livestream 1
+
+* Assembly code를 실행할 땐 interactive_scene_cfg.py의 assembly를 true로 설정해주시면 됩니다.

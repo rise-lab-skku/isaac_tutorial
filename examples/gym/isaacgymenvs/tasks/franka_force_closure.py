@@ -72,7 +72,7 @@ class FrankaForceClosure(VecTask):
         }
 
         # dimensions of observation and action space
-        # obs space = cubeA_pose (7) + cubeA_to_eef_pos + eef_pose (7) + q_gripper (2) + joint pos (7) + lf_force (3) + rf_force (3)
+        # obs space = cubeA_pose (7) + cubeA_to_eef_pos(3) + eef_pose (7) + q_gripper (2) + joint pos (7) + lf_force (3) + rf_force (3)
         self.numObservations = 32
         # actions include: joint torques (7) + bool gripper (1)
         self.numActions = 8
