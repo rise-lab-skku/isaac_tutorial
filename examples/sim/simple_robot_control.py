@@ -16,7 +16,7 @@ set_camera_view(eye=[7.5, 7.5, 7.5],
                 target=[0.0, 0.0, 0.0])
 
 asset_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../usd')
-asset_file = "test.usd"
+asset_file = "simple_robot.usd"
 usd_path = os.path.join(asset_root, asset_file)
 
 myrobot = my_world.scene.add(
@@ -42,16 +42,13 @@ while simulation_app.is_running():
             my_controller.reset()
         if i >= 0 and i < 500:
             # forward
-            myrobot.apply_wheel_actions(my_controller.forward(command=[0.1, 0]))
-            print(myrobot.get_linear_velocity())
+            myrobot.apply_wheel_actions(my_controller.forward(command=[0.5, 0]))
+            print("Robot's linear velocity is : " + str(myrobot.get_linear_velocity()))
         elif i >= 500 and i < 800:
             # rotate
             myrobot.apply_wheel_actions(my_controller.forward(command=[0.0, np.pi / 6]))
-            print(myrobot.get_angular_velocity())
-        elif i >= 800 and i < 1000:
-            # forward
-            myrobot.apply_wheel_actions(my_controller.forward(command=[0.1, 0]))
-        elif i == 1000:
+            print("Robot's angular velocity is : " + str(myrobot.get_angular_velocity()))
+        elif i == 800:
             i = 0
         i += 1
 
