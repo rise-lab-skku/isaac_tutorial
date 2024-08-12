@@ -45,6 +45,7 @@ class LineFollower(Node):
         self.crop_h_stop = 0
         self.crop_w_start = 0
         self.crop_w_stop = 0
+        self.image_input = None
 
         qos = QoSProfile(depth=10)
         self.publisher = self.create_publisher(Twist, '/cmd_vel', qos)
@@ -81,7 +82,6 @@ class LineFollower(Node):
         and draw all contours on 'out' image
         """ 
         # get a list of contours
-        print(type(mask))
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2:]
 
         # mark = {}
