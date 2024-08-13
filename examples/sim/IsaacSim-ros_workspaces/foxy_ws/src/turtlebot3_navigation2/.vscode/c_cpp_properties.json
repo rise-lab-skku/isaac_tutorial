@@ -1,0 +1,33 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/rise-jjm-ubuntu/Downloads/isaac_test/isaac_tutorial/examples/sim/IsaacSim-ros_workspaces/foxy_ws/install/isaac_ros2_messages/include/**",
+        "/home/rise-jjm-ubuntu/Downloads/isaac_test/isaac_tutorial/examples/sim/IsaacSim-ros_workspaces/foxy_ws/install/custom_message/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/5g_ws/install/m3t_ros/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/tamp_msgs/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/tamp_actionlib/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/sim_interface/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/moby_bringup/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/joint_effort_trajectory_controller/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/franka_hardware/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/franka_example_controllers/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/test_ws/install/franka_msgs/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/tutorial_ws/install/ros2_control_demo_hardware/include/**",
+        "/home/rise-jjm-ubuntu/Workspace/ROS2_WS/tutorial_ws/install/msg_srv_action_interface_example/include/**",
+        "/opt/ros/foxy/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
