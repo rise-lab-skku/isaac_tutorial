@@ -32,7 +32,12 @@ from omni.isaac.lab.utils.math import subtract_frame_transforms
 ##
 # Pre-defined configs
 ##
-from omni.isaac.lab_assets import FRANKA_PANDA_HIGH_PD_CFG, UR10_CFG  # isort:skip
+# add isaac_tutorial task directory to sys.path
+import os,sys
+ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
+sys.path.append(os.path.join(ISAAC_TUTORIAL_PATH, 'examples/lab'))
+from lab_assets.manipulators.ur10.universal_robots import UR10_CFG 
+from lab_assets.manipulators.franka.franka import FRANKA_PANDA_HIGH_PD_CFG
 
 
 @configclass
