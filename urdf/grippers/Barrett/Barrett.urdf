@@ -57,7 +57,7 @@
     </inertial>
   </link>
   <link name="a_link1_joint"/>
-  <joint name="a_palm_link1_joint" type="revolute">
+  <joint name="bh_j11_joint" type="revolute">
     <origin rpy="0.00000000 3.14159265 0.00000000" xyz="0.02500000 0.00000000 -0.00100000"/>
     <parent link="palm"/>
     <child link="a_link1_joint"/>
@@ -76,7 +76,7 @@
     <child link="a_link1"/>
   </joint>
   <link name="a_link2_joint"/>
-  <joint name="a_link1_link2_joint" type="revolute">
+  <joint name="bh_j12_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="0.00000000 0.00000000 0.00000000"/>
     <parent link="a_link1"/>
     <child link="a_link2_joint"/>
@@ -95,7 +95,7 @@
     <child link="a_link2"/>
   </joint>
   <link name="a_link3_joint"/>
-  <joint name="a_link2_link3_joint" type="revolute">
+  <joint name="bh_j13_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="0.00000000 0.00000000 0.00000000"/>
     <parent link="a_link2"/>
     <child link="a_link3_joint"/>
@@ -153,7 +153,7 @@
     </inertial>
   </link>
   <link name="b_link1_joint"/>
-  <joint name="b_palm_link1_joint" type="revolute">
+  <joint name="bh_j21_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="-0.02500000 0.00000000 -0.00100000"/>
     <parent link="palm"/>
     <child link="b_link1_joint"/>
@@ -172,7 +172,7 @@
     <child link="b_link1"/>
   </joint>
   <link name="b_link2_joint"/>
-  <joint name="b_link1_link2_joint" type="revolute">
+  <joint name="bh_j22_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="0.00000000 0.00000000 0.00000000"/>
     <parent link="b_link1"/>
     <child link="b_link2_joint"/>
@@ -191,7 +191,7 @@
     <child link="b_link2"/>
   </joint>
   <link name="b_link3_joint"/>
-  <joint name="b_link2_link3_joint" type="revolute">
+  <joint name="bh_j23_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="0.00000000 0.00000000 0.00000000"/>
     <parent link="b_link2"/>
     <child link="b_link3_joint"/>
@@ -243,7 +243,7 @@
   <!-- DUMMY LINK FOR THE CONSECUTIVE Z ROTATION -->
   <link name="c_link2_joint_0"/> 
 
-  <joint name="c_palm_link2_joint_0" type="revolute">
+  <joint name="bh_j32_joint" type="revolute">
     <origin rpy="0.00000000 -1.57079633 0" xyz="0.00000000 -0.05000000 -0.00100000"/>
     <parent link="palm"/>
     <child link="c_link2_joint_0"/>
@@ -274,7 +274,7 @@
   
   <link name="c_link3_joint"/>
   
-  <joint name="c_link2_link3_joint" type="revolute">
+  <joint name="bh_j33_joint" type="revolute">
     <origin rpy="0.00000000 0.00000000 0.00000000" xyz="0.00000000 0.00000000 0.00000000"/>
     <parent link="c_link2"/>
     <child link="c_link3_joint"/>

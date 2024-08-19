@@ -29,6 +29,12 @@ from omni.isaac.lab.utils import configclass
 from omni.isaac.lab.utils.assets import ISAAC_NUCLEUS_DIR
 from omni.isaac.lab.utils.math import subtract_frame_transforms
 
+from omni.isaac.core.utils.extensions import enable_extension
+enable_extension("omni.isaac.robot_assembler")
+from omni.isaac.robot_assembler import RobotAssembler,AssembledRobot 
+from omni.isaac.core.articulations import Articulation
+import numpy as np
+
 ##
 # Pre-defined configs
 ##
@@ -36,9 +42,8 @@ from omni.isaac.lab.utils.math import subtract_frame_transforms
 import os,sys
 ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
 sys.path.append(os.path.join(ISAAC_TUTORIAL_PATH, 'examples/lab'))
-from lab_assets.manipulators.ur10.universal_robots import UR10_CFG 
+from lab_assets.manipulators.ur10.universal_robots import UR10_CFG, UR10_SUCTION_CFG, UR10_WSG_CFG, UR10_BH_CFG, UR10_ROBOTIQ_CFG
 from lab_assets.manipulators.franka.franka import FRANKA_PANDA_HIGH_PD_CFG
-
 
 @configclass
 class TableTopSceneCfg(InteractiveSceneCfg):
@@ -68,6 +73,14 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         robot = FRANKA_PANDA_HIGH_PD_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
     elif args_cli.robot == "ur10":
         robot = UR10_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    elif args_cli.robot == "ur10_suction":
+        robot = UR10_SUCTION_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    elif args_cli.robot == "ur10_wsg":
+        robot = UR10_WSG_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    elif args_cli.robot == "ur10_bh":
+        robot = UR10_BH_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    elif args_cli.robot == "ur10_robotiq":
+        robot = UR10_ROBOTIQ_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
     else:
         raise ValueError(f"Robot {args_cli.robot} is not supported. Valid: franka_panda, ur10")
 
@@ -106,8 +119,17 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
         robot_entity_cfg = SceneEntityCfg("robot", joint_names=["panda_joint.*"], body_names=["panda_hand"])
     elif args_cli.robot == "ur10":
         robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=["ee_link"])
+    elif args_cli.robot == "ur10_suction":
+        robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=["ee_link"])
+    elif args_cli.robot == "ur10_wsg":
+        robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=["ee_link"])
+    elif args_cli.robot == "ur10_bh":
+        robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=["ee_link"])
+    elif args_cli.robot == "ur10_robotiq":
+        robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=["ee_link"])
     else:
         raise ValueError(f"Robot {args_cli.robot} is not supported. Valid: franka_panda, ur10")
+
     # Resolving the scene entities
     robot_entity_cfg.resolve(scene)
     # Obtain the frame index of the end-effector
