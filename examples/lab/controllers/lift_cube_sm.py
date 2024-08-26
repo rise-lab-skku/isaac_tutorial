@@ -247,6 +247,10 @@ def main():
         # UR10 desired orientation
         desired_orientation[:] = torch.tensor([0.7071, 0, 0.7071, 0], device=env.unwrapped.device)
         offset = 0.2
+    elif "WSG" in task_name:
+        # WSG desired orientation
+        desired_orientation[:] = torch.tensor([0.7071, 0, 0.7071, 0], device=env.unwrapped.device)
+        offset = 0.2
 
     # create state machine
     pick_sm = PickAndLiftSm(env_cfg.sim.dt * env_cfg.decimation, env.unwrapped.num_envs, env.unwrapped.device)

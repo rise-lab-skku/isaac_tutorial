@@ -67,8 +67,6 @@ class UR10ROBOTIQCubeLiftEnvCfg(LiftEnvCfg):
         )
 
         # Listens to the required transforms
-        # IMPORTANT: The order of the frames in the list is important. The first frame is the tool center point (TCP)
-        # the other frames are the fingers
         marker_cfg = FRAME_MARKER_CFG.copy()
         marker_cfg.markers["frame"].scale = (0.05, 0.05, 0.05)
         marker_cfg.prim_path = "/Visuals/FrameTransformer"
@@ -81,15 +79,15 @@ class UR10ROBOTIQCubeLiftEnvCfg(LiftEnvCfg):
                     prim_path="{ENV_REGEX_NS}/Robot/ee_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.13, 0.0, 0.0],
-                        rot=[0.7071, 0, -0.7071, 0],
+                        pos=[0.14, 0.0, 0.0],
+                        #rot=[0.7071, 0, -0.7071, 0],
                     ),
                 ),
             ],
         )
 
 @configclass
-class UR10BARRETCubeLiftEnvCfg(LiftEnvCfg):
+class UR10BARRETTCubeLiftEnvCfg(LiftEnvCfg):
     def __post_init__(self):
         # post init of parent
         super().__post_init__()
@@ -129,8 +127,6 @@ class UR10BARRETCubeLiftEnvCfg(LiftEnvCfg):
         )
 
         # Listens to the required transforms
-        # IMPORTANT: The order of the frames in the list is important. The first frame is the tool center point (TCP)
-        # the other frames are the fingers
         marker_cfg = FRAME_MARKER_CFG.copy()
         marker_cfg.markers["frame"].scale = (0.05, 0.05, 0.05)
         marker_cfg.prim_path = "/Visuals/FrameTransformer"
@@ -143,7 +139,67 @@ class UR10BARRETCubeLiftEnvCfg(LiftEnvCfg):
                     prim_path="{ENV_REGEX_NS}/Robot/ee_link",
                     name="end_effector",
                     offset=OffsetCfg(
-                        pos=[0.0, 0.0, 0.1034],
+                        pos=[0.13, 0.0, 0.0],
+                        rot=[0.7071, 0, -0.7071, 0],
+                    ),
+                ),
+            ],
+        )
+
+@configclass
+class UR10WSGCubeLiftEnvCfg(LiftEnvCfg):
+    def __post_init__(self):
+        # post init of parent
+        super().__post_init__()
+
+        # Set Franka as robot
+        self.scene.robot = UR10_BH_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+
+        # Set actions for the specific robot type (franka)
+        self.actions.body_joint_pos = mdp.JointPositionActionCfg(
+            asset_name="robot", joint_names=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"], scale=1, use_default_offset=True
+        )
+        self.actions.finger_joint_pos = mdp.BinaryJointPositionActionCfg(
+            asset_name="robot",
+            joint_names=["base_joint_gripper_.*"],
+            open_command_expr={"base_joint_gripper_left": -0.055, "base_joint_gripper_right": 0.055},
+            close_command_expr={"base_joint_gripper_left": -0.003, "base_joint_gripper_right": 0.003},
+        )
+        # Set the body name for the end effector
+        self.commands.object_pose.body_name = "ee_link"
+
+        # Set Cube as object
+        self.scene.object = RigidObjectCfg(
+            prim_path="{ENV_REGEX_NS}/Object",
+            init_state=RigidObjectCfg.InitialStateCfg(pos=[0.5, 0, 0.055], rot=[1, 0, 0, 0]),
+            spawn=UsdFileCfg(
+                usd_path=f"{ISAAC_NUCLEUS_DIR}/Props/Blocks/DexCube/dex_cube_instanceable.usd",
+                scale=(0.8, 0.8, 0.8),
+                rigid_props=RigidBodyPropertiesCfg(
+                    solver_position_iteration_count=16,
+                    solver_velocity_iteration_count=1,
+                    max_angular_velocity=1000.0,
+                    max_linear_velocity=1000.0,
+                    max_depenetration_velocity=5.0,
+                    disable_gravity=False,
+                ),
+            ),
+        )
+
+        # Listens to the required transforms
+        marker_cfg = FRAME_MARKER_CFG.copy()
+        marker_cfg.markers["frame"].scale = (0.05, 0.05, 0.05)
+        marker_cfg.prim_path = "/Visuals/FrameTransformer"
+        self.scene.ee_frame = FrameTransformerCfg(
+            prim_path="{ENV_REGEX_NS}/Robot/base_link",
+            debug_vis=True,
+            visualizer_cfg=marker_cfg,
+            target_frames=[
+                FrameTransformerCfg.FrameCfg(
+                    prim_path="{ENV_REGEX_NS}/Robot/ee_link",
+                    name="end_effector",
+                    offset=OffsetCfg(
+                        pos=[0.13, 0.0, 0.0],
                     ),
                 ),
             ],

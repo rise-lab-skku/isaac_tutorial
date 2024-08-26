@@ -35,6 +35,43 @@ class UR10ROBOTIQCubeLiftEnvCfg(joint_pos_env_cfg.UR10ROBOTIQCubeLiftEnvCfg):
             joint_names=[".*"],
             body_name="ee_link",
             controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=False, ik_method="dls"),
-            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.0, 0.0, 0.107]),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.14, 0.0, 0.0]),
         )
 
+@configclass
+class UR10BARRETTCubeLiftEnvCfg(joint_pos_env_cfg.UR10BARRETTCubeLiftEnvCfg):
+    def __post_init__(self):
+        # post init of parent
+        super().__post_init__()
+
+        # Set Franka as robot
+        # We switch here to a stiffer PD controller for IK tracking to be better.
+        self.scene.robot = UR10_BH_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+
+        # Set actions for the specific robot type (franka)
+        self.actions.body_joint_pos = DifferentialInverseKinematicsActionCfg(
+            asset_name="robot",
+            joint_names=[".*"],
+            body_name="ee_link",
+            controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=False, ik_method="dls"),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.14, 0.0, 0.0]),
+        )
+
+@configclass
+class UR10WSGCubeLiftEnvCfg(joint_pos_env_cfg.UR10WSGCubeLiftEnvCfg):
+    def __post_init__(self):
+        # post init of parent
+        super().__post_init__()
+
+        # Set Franka as robot
+        # We switch here to a stiffer PD controller for IK tracking to be better.
+        self.scene.robot = UR10_WSG_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+
+        # Set actions for the specific robot type (franka)
+        self.actions.body_joint_pos = DifferentialInverseKinematicsActionCfg(
+            asset_name="robot",
+            joint_names=[".*"],
+            body_name="ee_link",
+            controller=DifferentialIKControllerCfg(command_type="pose", use_relative_mode=False, ik_method="dls"),
+            body_offset=DifferentialInverseKinematicsActionCfg.OffsetCfg(pos=[0.14, 0.0, 0.0]),
+        )

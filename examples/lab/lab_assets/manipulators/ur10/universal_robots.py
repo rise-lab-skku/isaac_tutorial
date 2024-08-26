@@ -107,17 +107,17 @@ UR10_WSG_CFG = ArticulationCfg(
     actuators={
         "arm": ImplicitActuatorCfg(
             joint_names_expr=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-            velocity_limit=100.0,
+            velocity_limit=300.0,
             effort_limit=87.0,
             stiffness=800.0,
             damping=40.0,
         ),
         "gripper": ImplicitActuatorCfg(
             joint_names_expr=["base_joint_gripper_left", "base_joint_gripper_right"],
-            velocity_limit=0.1,
-            effort_limit=10.0,
-            stiffness=800.0,
-            damping=40.0,
+            velocity_limit=300.0,
+            effort_limit=10000.0,
+            stiffness=100000.0,
+            damping=10.0,
         )
     },
 )
@@ -154,14 +154,14 @@ UR10_BH_CFG = ArticulationCfg(
             joint_names_expr=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
             velocity_limit=100.0,
             effort_limit=87.0,
-            stiffness=800.0,
+            stiffness=300.0,
             damping=40.0,
         ),
         "gripper": ImplicitActuatorCfg(
             joint_names_expr=['bh_j11_joint', 'bh_j21_joint', 'bh_j32_joint', 'bh_j12_joint', 'bh_j22_joint', 'bh_j33_joint', 'bh_j13_joint', 'bh_j23_joint'],
             velocity_limit=0.1,
             effort_limit=10.0,
-            stiffness=800.0,
+            stiffness=200.0,
             damping=40.0,
         )
     },
@@ -195,9 +195,9 @@ UR10_ROBOTIQ_CFG = ArticulationCfg(
     actuators={
         "arm": ImplicitActuatorCfg(
             joint_names_expr=["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"],
-            velocity_limit=100.0,
+            velocity_limit=200.0,
             effort_limit=87.0,
-            stiffness=800.0,
+            stiffness=300.0,
             damping=40.0,
         ),
         "gripper": ImplicitActuatorCfg(
