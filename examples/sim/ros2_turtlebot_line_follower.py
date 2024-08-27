@@ -15,7 +15,7 @@ bridge = cv_bridge.CvBridge()
 
 ## User-defined parameters: (Update these values to your liking)
 # Minimum size for a contour to be considered anything
-MIN_AREA = 500
+# MIN_AREA = 500
 
 # Minimum size for a contour to be considered part of the track
 MIN_AREA_TRACK = 5000
@@ -92,18 +92,18 @@ class LineFollower(Node):
             M = cv2.moments(contour)
             # Search more about Image Moments on Wikipedia :)
 
-            if M['m00'] > MIN_AREA:
+            # if M['m00'] > MIN_AREA:
             # if countor.area > MIN_AREA:
 
-                if (M['m00'] > MIN_AREA_TRACK):
-                    # Contour is part of the track
-                    line['x'] = self.crop_w_start + int(M["m10"]/M["m00"])
-                    line['y'] = int(M["m01"]/M["m00"])
+            if (M['m00'] > MIN_AREA_TRACK):
+                # Contour is part of the track
+                line['x'] = self.crop_w_start + int(M["m10"]/M["m00"])
+                line['y'] = int(M["m01"]/M["m00"])
 
-                    # plot the area in green
-                    cv2.drawContours(out, contour, -1, (0,255,0), 3)
-                    cv2.putText(out, str(M['m00']), (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"])),
-                        cv2.FONT_HERSHEY_PLAIN, 2, (255,255,0), 2)
+                # plot the area in green
+                cv2.drawContours(out, contour, -1, (0,255,0), 3)
+                cv2.putText(out, str(M['m00']), (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"])),
+                    cv2.FONT_HERSHEY_PLAIN, 2, (255,255,0), 2)
 
         return line
 
