@@ -15,7 +15,7 @@ bridge = cv_bridge.CvBridge()
 
 ## User-defined parameters: (Update these values to your liking)
 # Minimum size for a contour to be considered anything
-MIN_AREA = 500 
+MIN_AREA = 500
 
 # Minimum size for a contour to be considered part of the track
 MIN_AREA_TRACK = 5000
@@ -23,7 +23,7 @@ MIN_AREA_TRACK = 5000
 # Robot's speed when following the line
 MAX_LINEAR_SPEED = 0.22
 
-# Proportional constant to be applied on speed when turning 
+# Proportional constant to be applied on speed when turning
 # (Multiplied by the error value)
 KP = 0.005
 
@@ -76,11 +76,11 @@ class LineFollower(Node):
     def get_contour_data(self, mask, out):
         """
         Return the centroid of the largest contour in
-        the binary image 'mask' (the line) 
-        and return the side in which the smaller contour is (the track mark) 
+        the binary image 'mask' (the line)
+        and return the side in which the smaller contour is (the track mark)
         (If there are any of these contours),
         and draw all contours on 'out' image
-        """ 
+        """
         # get a list of contours
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2:]
 
@@ -88,7 +88,7 @@ class LineFollower(Node):
         line = {}
 
         for i,contour in enumerate(contours):
-            
+
             M = cv2.moments(contour)
             # Search more about Image Moments on Wikipedia :)
 
@@ -99,11 +99,11 @@ class LineFollower(Node):
                     # Contour is part of the track
                     line['x'] = self.crop_w_start + int(M["m10"]/M["m00"])
                     line['y'] = int(M["m01"]/M["m00"])
-                    
+
                     # plot the area in green
-                    cv2.drawContours(out, contour, -1, (0,255,0), 3) 
+                    cv2.drawContours(out, contour, -1, (0,255,0), 3)
                     cv2.putText(out, str(M['m00']), (int(M["m10"]/M["m00"]), int(M["m01"]/M["m00"])),
-                        cv2.FONT_HERSHEY_PLAIN, 2, (255,255,0), 2)                             
+                        cv2.FONT_HERSHEY_PLAIN, 2, (255,255,0), 2)
 
         return line
 
@@ -112,7 +112,7 @@ class LineFollower(Node):
         Function to be called when the timer ticks.
         According to an image 'image_input', determine the speed of the robot
         so it can follow the contour
-        """        
+        """
         error = 0
 
         # Wait for the first image to be received
@@ -137,14 +137,14 @@ class LineFollower(Node):
         # get the centroid of the biggest contour in the picture,
         # and plot its detail on the cropped part of the output image
         output = image
-        line = self.get_contour_data(mask, output[self.crop_h_start:self.crop_h_stop, self.crop_w_start:self.crop_w_stop])  
+        line = self.get_contour_data(mask, output[self.crop_h_start:self.crop_h_stop, self.crop_w_start:self.crop_w_stop])
         # also get the side in which the track mark "is"
-        
+
         message = Twist()
-        
+
         if line:
         # if there even is a line in the image:
-        # (as the camera could not be reading any lines)   
+        # (as the camera could not be reading any lines)
             x = line['x']
 
             # error:= The difference between the center of the image
@@ -155,10 +155,10 @@ class LineFollower(Node):
 
             # plot the line centroid on the image
             cv2.circle(output, (line['x'], self.crop_h_start + line['y']), 5, (0,255,0), 7)
-        
+
         # Determine the speed to turn and get the line in the center of the camera.
         message.angular.z = float(error) * -KP
-        # print("Error: {} | Angular Z: {}, ".format(error, message.angular.z))     
+        # print("Error: {} | Angular Z: {}, ".format(error, message.angular.z))
 
         # Plot the boundaries where the image was cropped
         cv2.rectangle(output, (self.crop_w_start, self.crop_h_start), (self.crop_w_stop, self.crop_h_stop), (0,0,255), 2)
