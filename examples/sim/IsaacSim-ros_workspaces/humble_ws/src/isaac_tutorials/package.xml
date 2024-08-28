@@ -15,23 +15,26 @@
     and any modifications thereto.  Any use, reproduction, disclosure or
     distribution of this software and related documentation without an express
     license agreement from NVIDIA CORPORATION is strictly prohibited.</license>
-  
+
   <url type="Documentation">https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/overview.html</url>
   <url type="Forums">https://forums.developer.nvidia.com/c/omniverse/simulation/69</url>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
   <build_depend>rqt_image_view</build_depend>
 
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
-
-  <exec_depend>joint_state_publisher</exec_depend>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>ackermann_msgs</exec_depend>
-
+  <exec_depend>joint_state_publisher</exec_depend>
   <exec_depend>rviz2</exec_depend>
+  <exec_depend>moveit2</exec_depend>
 
+  <!-- For the sequence of the lecture content, this line has been commented out. -->
+  <!-- <exec_depend>pymoveit2</exec_depend> -->
 
   <export>
-    <build_type>ament_cmake</build_type>
+    <build_type>ament_python</build_type>
   </export>
 </package>
