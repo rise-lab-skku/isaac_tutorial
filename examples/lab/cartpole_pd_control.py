@@ -65,8 +65,8 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
     count = 0
 
     # Define PD controller
-    kp_t = -6000.0
-    kd_t = -15
+    kp_t = -1000.0
+    kd_t = -10
     kp_x = 0      # Homework: Tune these gains
     kd_x = 0
     controller = PD(kp_t, kd_t, kp_x, kd_x)
@@ -84,36 +84,27 @@ def run_simulator(sim: sim_utils.SimulationContext, scene: InteractiveScene):
             root_state = robot.data.default_root_state.clone()
             root_state[:, :3] += scene.env_origins
             robot.write_root_state_to_sim(root_state)
-            # set joint positions with some noise
-            joint_pos, joint_vel = robot.data.default_joint_pos.clone(), robot.data.default_joint_vel.clone()
-            # joint_pos += torch.rand_like(joint_pos) * 0.1
-            joint_pos += torch.empty(args_cli.num_envs, 2).uniform_(-1, 1).type(torch.FloatTensor)
+            # set pole angle with some noise
+            joint_vel = robot.data.default_joint_vel.clone()
+            joint_pos = torch.cat([torch.zeros(args_cli.num_envs, 1),
+                                    torch.empty(args_cli.num_envs, 1).uniform_(-1, 1)], dim=1)
             robot.write_joint_state_to_sim(joint_pos, joint_vel)
             # clear internal buffers
             scene.reset()
             print("[INFO]: Resetting robot state...")
-            print(joint_pos)
 
 
         # Get robot observation
         joint_pos, joint_vel = robot.data.joint_pos, robot.data.joint_vel
         cart_pos, pole_pos = joint_pos[:, 0], joint_pos[:, 1]
         cart_vel, pole_vel = joint_vel[:, 0], joint_vel[:, 1]
-        print(f"Pole angle = {pole_pos}, Pole velocity = {pole_vel}")
-        print(f"Cart position = {cart_pos}, Cart velocity = {cart_vel}")
 
         # calculate control effort
         action = controller.observe(cart_pos, cart_vel, pole_pos, pole_vel)
-        print(f"PID action = {action}")
-
-        # Apply random action
-        # # -- generate random joint efforts
-        # efforts = torch.randn_like(robot.data.joint_pos) * 5.0
         efforts = torch.zeros_like(robot.data.joint_pos)
         efforts[:, 0] = action
 
         # -- apply action to the robot
-        print(f"Applying joint efforts = {efforts}\n")
         robot.set_joint_effort_target(efforts)
         # -- write data to sim
         scene.write_data_to_sim()
