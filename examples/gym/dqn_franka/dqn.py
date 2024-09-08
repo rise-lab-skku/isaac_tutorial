@@ -117,7 +117,6 @@ class DQN:
         self.env.step(action)
         next_obs, reward, done = self.env.obs_buf.clone(), self.env.reward_buf.clone(), self.env.reset_buf.clone()
         self.env.reset()
-
         self.replay.push(obs, action, reward, next_obs, 1 - done)
 
         # training mode
