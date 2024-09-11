@@ -18,7 +18,7 @@ import torch
 import omni.isaac.core.utils.prims as prim_utils
 import omni.isaac.lab.sim as sim_utils
 from omni.isaac.lab.assets import Articulation
-from franka import FRANKA_PANDA_CFG
+from lab_assets.manipulators.franka.franka import FRANKA_PANDA_CFG
 
 def design_scene() -> dict[str, Articulation]:
     """Designs the scene."""

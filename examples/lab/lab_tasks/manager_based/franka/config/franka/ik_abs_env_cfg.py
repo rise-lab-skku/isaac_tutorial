@@ -16,7 +16,7 @@ from . import joint_pos_env_cfg
 import os, sys
 ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
 sys.path.append(os.path.join(ISAAC_TUTORIAL_PATH, 'examples/lab'))
-from lab_assets.franka import FRANKA_PANDA_HIGH_PD_CFG  # isort: skip
+from lab_assets.manipulators.franka.franka import FRANKA_PANDA_HIGH_PD_CFG  # isort: skip
 
 
 @configclass

@@ -25,6 +25,7 @@ parser.add_argument(
     action="store_true",
     help="When no checkpoint provided, use the last saved model. Otherwise use the best saved model.",
 )
+parser.add_argument("--agent", type=str, default="PPO", help="RL Policy model to use.")
 # append AppLauncher cli args
 AppLauncher.add_app_launcher_args(parser)
 # parse the arguments
@@ -41,7 +42,7 @@ import numpy as np
 import os
 import torch
 
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C, TD3, SAC
 from stable_baselines3.common.vec_env import VecNormalize
 
 # add isaac_tutorial task directory to sys.path
@@ -59,7 +60,20 @@ def main():
     env_cfg = parse_env_cfg(
         args_cli.task, use_gpu=not args_cli.cpu, num_envs=args_cli.num_envs, use_fabric=not args_cli.disable_fabric
     )
-    agent_cfg = load_cfg_from_registry(args_cli.task, "sb3_cfg_entry_point")
+    # choose the RL model
+    if args_cli.agent.lower() == "ppo":
+        Agent = PPO
+    elif args_cli.agent.lower() == "a2c":
+        Agent = A2C
+    elif args_cli.agent.lower() == "td3":
+        Agent = TD3
+    elif args_cli.agent.lower() == "sac":
+        Agent = SAC
+    else:
+        raise ValueError(f"Unsupported agent: {args_cli.agent}")
+
+    entry_point = f"sb3_{args_cli.agent.lower()}_cfg_entry_point"
+    agent_cfg = load_cfg_from_registry(args_cli.task, entry_point)
     # post-process agent configuration
     agent_cfg = process_sb3_cfg(agent_cfg)
 
@@ -94,7 +108,7 @@ def main():
         checkpoint_path = args_cli.checkpoint
     # create agent from stable baselines
     print(f"Loading checkpoint from: {checkpoint_path}")
-    agent = PPO.load(checkpoint_path, env, print_system_info=True)
+    agent = Agent.load(checkpoint_path, env, print_system_info=True)
 
     # reset environment
     obs = env.reset()

@@ -26,6 +26,7 @@ parser.add_argument("--num_envs", type=int, default=None, help="Number of enviro
 parser.add_argument("--task", type=str, default=None, help="Name of the task.")
 parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
 parser.add_argument("--max_iterations", type=int, default=None, help="RL Policy training iterations.")
+parser.add_argument("--agent", type=str, default="PPO", help="RL Policy model to use.")
 # append AppLauncher cli args
 AppLauncher.add_app_launcher_args(parser)
 # parse the arguments
@@ -39,10 +40,10 @@ simulation_app = app_launcher.app
 
 import gymnasium as gym
 import numpy as np
-import os
+import os, sys
 from datetime import datetime
 
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C, TD3, SAC
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.logger import configure
 from stable_baselines3.common.vec_env import VecNormalize
@@ -51,7 +52,6 @@ from omni.isaac.lab.utils.dict import print_dict
 from omni.isaac.lab.utils.io import dump_pickle, dump_yaml
 
 # add isaac_tutorial task directory to sys.path
-import os,sys
 ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
 sys.path.append(os.path.join(ISAAC_TUTORIAL_PATH, 'examples/lab'))
 import lab_tasks  # noqa: F401
@@ -65,7 +65,20 @@ def main():
     env_cfg = parse_env_cfg(
         args_cli.task, use_gpu=not args_cli.cpu, num_envs=args_cli.num_envs, use_fabric=not args_cli.disable_fabric
     )
-    agent_cfg = load_cfg_from_registry(args_cli.task, "sb3_cfg_entry_point")
+    # choose the RL model
+    if args_cli.agent.lower() == "ppo":
+        Agent = PPO
+    elif args_cli.agent.lower() == "a2c":
+        Agent = A2C
+    elif args_cli.agent.lower() == "td3":
+        Agent = TD3
+    elif args_cli.agent.lower() == "sac":
+        Agent = SAC
+    else:
+        raise ValueError(f"Unsupported agent: {args_cli.agent}")
+
+    entry_point = f"sb3_{args_cli.agent.lower()}_cfg_entry_point"
+    agent_cfg = load_cfg_from_registry(args_cli.task, entry_point)
 
     # override configuration with command line arguments
     if args_cli.seed is not None:
@@ -98,7 +111,7 @@ def main():
     env.seed(seed=agent_cfg["seed"])
 
     # create agent from stable baselines
-    agent = PPO(policy_arch, env, verbose=1, **agent_cfg)
+    agent = Agent(policy_arch, env, verbose=1, **agent_cfg)
     # configure the logger
     new_logger = configure(log_dir, ["stdout", "tensorboard"])
     agent.set_logger(new_logger)

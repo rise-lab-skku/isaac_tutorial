@@ -24,7 +24,7 @@ from lab_tasks.manager_based.franka.lift_env_cfg import LiftEnvCfg
 # Pre-defined configs
 ##
 from omni.isaac.lab.markers.config import FRAME_MARKER_CFG  # isort: skip
-from lab_assets.franka import FRANKA_PANDA_CFG  # isort: skip
+from lab_assets.manipulators.franka.franka import FRANKA_PANDA_CFG  # isort: skip
 
 
 @configclass

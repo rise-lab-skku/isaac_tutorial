@@ -20,13 +20,6 @@ class Net(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-# some useful functions
-def soft_update(net, net_target, tau):
-    # update target network with momentum (for approximating ground-truth Q-values)
-    for param_target, param in zip(net_target.parameters(), net.parameters()):
-        param_target.data.copy_(param_target.data * tau + param.data * (1.0 - tau))
-
-
 class DQN:
     def __init__(self, args):
         self.args = args
@@ -48,9 +41,15 @@ class DQN:
         # define Q-network
         self.q        = Net(num_act=self.act_space).to(self.args.sim_device)
         self.q_target = Net(num_act=self.act_space).to(self.args.sim_device)
-        soft_update(self.q, self.q_target, tau=0.0)
+        self.soft_update(self.q, self.q_target, tau=0.0)
         self.q_target.eval()
         self.optimizer = torch.optim.Adam(self.q.parameters(), lr=self.lr)
+
+    # some useful functions
+    def soft_update(self, net, net_target, tau):
+        # update target network with momentum (for approximating ground-truth Q-values)
+        for param_target, param in zip(net_target.parameters(), net.parameters()):
+            param_target.data.copy_(param_target.data * tau + param.data * (1.0 - tau))
 
     def compute_loss(self):
         # policy update using TD loss
@@ -70,11 +69,15 @@ class DQN:
         self.optimizer.step()
 
         # soft update target networks
-        soft_update(self.q, self.q_target, self.tau)
+        self.soft_update(self.q, self.q_target, self.tau)
         return loss
 
-    def _select_action(self, obs, epsilon=0.0):
-        coin = torch.rand(self.args.num_envs, device=self.args.sim_device) < epsilon
+    def select_action(self, obs):
+        # linear annealing from 0.8 to 0.01 over 20k steps
+        self.epsilon = max(0.01, 0.8 - 0.01 * (self.run_step / 20))
+
+        # collect data
+        coin = torch.rand(self.args.num_envs, device=self.args.sim_device) < self.epsilon
 
         rand_act = torch.rand(self.args.num_envs, device=self.args.sim_device)
         with torch.no_grad():
@@ -86,14 +89,8 @@ class DQN:
         # choose random action or policy action
         act = coin.float() * rand_act + (1 - coin.float()) * true_act
         clip_act = 2 * (act - 0.5)  # maps to -1 to 1
-        return clip_act.view(-1,1)
+        action = clip_act.view(-1,1)
 
-    def select_action(self, observations):
-        # linear annealing from 0.8 to 0.01 over 20k steps
-        self.epsilon = max(0.01, 0.8 - 0.01 * (self.run_step / 20))
-
-        # collect data
-        action = self._select_action(observations, self.epsilon)
         return action
 
     def update(self, action, next_obs, obs, reward, done):

@@ -16,8 +16,8 @@ from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import (
 class LiftCubePPORunnerCfg(RslRlOnPolicyRunnerCfg):
     num_steps_per_env = 24
     max_iterations = 15000
-    save_interval = 100
-    experiment_name = "franka_lift"
+    save_interval = 3000
+    experiment_name = "franka_grasp"
     empirical_normalization = False
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=1.0,

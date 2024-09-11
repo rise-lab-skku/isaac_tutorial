@@ -17,7 +17,10 @@ import omni.isaac.lab.sim as sim_utils
 from omni.isaac.lab.actuators import ImplicitActuatorCfg
 from omni.isaac.lab.assets.articulation import ArticulationCfg
 import os,sys
-ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
+if os.environ.get("ISAAC_TUTORIAL_PATH") is None:
+    ISAAC_TUTORIAL_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../../")
+else:
+    ISAAC_TUTORIAL_PATH = os.environ["ISAAC_TUTORIAL_PATH"]
 
 ##
 # Configuration
@@ -26,7 +29,7 @@ ISAAC_TUTORIAL_PATH=os.environ['ISAAC_TUTORIAL_PATH']
 FRANKA_PANDA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         usd_path=f"{ISAAC_TUTORIAL_PATH}/examples/lab/lab_assets/manipulators/franka/panda_instanceable.usd",
-        activate_contact_sensors=False,
+        activate_contact_sensors=True,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             max_depenetration_velocity=5.0,
@@ -34,7 +37,6 @@ FRANKA_PANDA_CFG = ArticulationCfg(
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
             enabled_self_collisions=True, solver_position_iteration_count=8, solver_velocity_iteration_count=0
         ),
-        # collision_props=sim_utils.CollisionPropertiesCfg(contact_offset=0.005, rest_offset=0.0),
     ),
     init_state=ArticulationCfg.InitialStateCfg(
         joint_pos={

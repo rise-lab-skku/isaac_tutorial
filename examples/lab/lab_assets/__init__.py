@@ -13,4 +13,4 @@ import toml
 ##
 
 from .cartpole import *
-from .franka import *
+from .manipulators import *

@@ -1,0 +1,12 @@
+# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/sac.yml
+#            https://stable-baselines3.readthedocs.io/en/master/modules/sac.html
+seed: 42
+
+n_timesteps: !!float 1e6
+policy: 'MlpPolicy'
+batch_size: 4096
+gamma: 0.99
+ent_coef: 0.01
+learning_rate: !!float 3e-4
+policy_kwargs: "dict(log_std_init=-3.67, net_arch=[64, 64])"
+device: "cuda:0"

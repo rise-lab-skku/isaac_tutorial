@@ -1,0 +1,11 @@
+# Reference: https://github.com/DLR-RM/rl-baselines3-zoo/blob/master/hyperparams/dqn.yml
+#            https://stable-baselines3.readthedocs.io/en/master/modules/td3.html
+seed: 42
+
+n_timesteps: !!float 1e6
+policy: 'MlpPolicy'
+batch_size: 4096
+gamma: 0.99
+learning_rate: !!float 3e-4
+policy_kwargs: "dict(net_arch=[256, 256])"
+device: "cuda:0"
