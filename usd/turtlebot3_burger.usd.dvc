@@ -1,0 +1,5 @@
+outs:
+- md5: 1cf8154e5714829384cbc0594ee87f5a
+  size: 9729429
+  hash: md5
+  path: turtlebot3_burger.usd

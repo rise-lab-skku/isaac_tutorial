@@ -1,0 +1,5 @@
+outs:
+- md5: ed728389f46f707a532fb575b42c217e
+  size: 83015
+  hash: md5
+  path: turtlebot3_line_follower.usd

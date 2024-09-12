@@ -1,0 +1,5 @@
+outs:
+- md5: ee5f8e2b346907f732390d65fd626a28
+  size: 251489
+  hash: md5
+  path: turtlebot3_navigation.usd

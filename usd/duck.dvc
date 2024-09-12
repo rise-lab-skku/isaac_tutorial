@@ -1,0 +1,6 @@
+outs:
+- md5: 8e05946b9ec4e998754386d414812d4b.dir
+  size: 2482021
+  nfiles: 4
+  hash: md5
+  path: duck

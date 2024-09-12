@@ -1,0 +1,6 @@
+outs:
+- md5: 8f89144583249cd5e96ffd96249408f5.dir
+  size: 19506298
+  nfiles: 4
+  hash: md5
+  path: franka

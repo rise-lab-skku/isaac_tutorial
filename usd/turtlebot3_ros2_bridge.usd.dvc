@@ -1,0 +1,5 @@
+outs:
+- md5: 46c304ecffb8469ae9e8ad9303dc2d5d
+  size: 61004
+  hash: md5
+  path: turtlebot3_ros2_bridge.usd
