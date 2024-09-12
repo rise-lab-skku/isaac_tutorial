@@ -29,7 +29,7 @@ else:
 FRANKA_PANDA_CFG = ArticulationCfg(
     spawn=sim_utils.UsdFileCfg(
         usd_path=f"{ISAAC_TUTORIAL_PATH}/examples/lab/lab_assets/manipulators/franka/panda_instanceable.usd",
-        activate_contact_sensors=True,
+        activate_contact_sensors=False,
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=False,
             max_depenetration_velocity=5.0,
