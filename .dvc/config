@@ -1,0 +1,4 @@
+[core]
+    remote = usd
+['remote "usd"']
+    url = gdrive://1QdoaiNWrJDTxpay494yeaaQJ_dmMVYYY
