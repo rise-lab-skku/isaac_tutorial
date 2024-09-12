@@ -34,7 +34,9 @@ class FrankaCubeLiftEnvCfg(LiftEnvCfg):
         super().__post_init__()
 
         # Set Franka as robot
-        self.scene.robot = FRANKA_PANDA_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        RANKA_PANDA_CONTACT_CFG = FRANKA_PANDA_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+        RANKA_PANDA_CONTACT_CFG.spawn.activate_contact_sensors = True
+        self.scene.robot = RANKA_PANDA_CONTACT_CFG
 
         # Set actions for the specific robot type (franka)
         self.actions.body_joint_pos = mdp.JointPositionActionCfg(
