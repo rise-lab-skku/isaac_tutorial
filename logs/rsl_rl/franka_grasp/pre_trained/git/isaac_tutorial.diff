@@ -1,0 +1,21 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   logs/rsl_rl/franka_grasp/2024-09-11_16-13-08/exported/policy.pt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	logs/rsl_rl/franka_grasp/2024-09-13_02-35-27/
+	logs/rsl_rl/franka_grasp/2024-09-13_08-11-07/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/logs/rsl_rl/franka_grasp/2024-09-11_16-13-08/exported/policy.pt b/logs/rsl_rl/franka_grasp/2024-09-11_16-13-08/exported/policy.pt
+index a264bc1..7d76dd4 100644
+Binary files a/logs/rsl_rl/franka_grasp/2024-09-11_16-13-08/exported/policy.pt and b/logs/rsl_rl/franka_grasp/2024-09-11_16-13-08/exported/policy.pt differ
