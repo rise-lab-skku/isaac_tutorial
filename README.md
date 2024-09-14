@@ -21,6 +21,7 @@
 - [Overview](#overview)
 - [Installation methods](#installation-methods)
     - [1. Tutorial](#1-tutorial-package)
+    - [2. IsaacLab](#2-isaac-lab)
 
 </div>
 </div>
@@ -47,4 +48,15 @@ sudo apt-get install git
 git clone https://github.com/rise-lab-skku/isaac_tutorial
 cd isaac_tutorial 
 source isaac_tutorial.sh
+```
+
+#### 2. Isaac Lab
+```bash
+git clone https://github.com/isaac-sim/IsaacLab.git
+cd IsaacLab
+git checkout 5444fa399
+cd source/extensions
+pip install --editable omni.isaac.lab
+pip install --editable omni.isaac.lab_assets
+pip install --editable omni.isaac.lab_tasks
 ```
