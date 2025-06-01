@@ -4,6 +4,7 @@ ros2 run isaac_tutorials pose_goal_minimal_example
 """
 
 from math import cos, sin
+import time
 from threading import Thread
 
 import rclpy
@@ -53,7 +54,7 @@ def main():
     executor.add_node(node)
     executor_thread = Thread(target=executor.spin, daemon=True, args=())
     executor_thread.start()
-    node.create_rate(1.0).sleep()
+    time.sleep(1.0)
 
     # =============== INITIALIZE PANDA WITH JOINT COMMANDS ===============
 
@@ -74,7 +75,6 @@ def main():
     node.get_logger().info(f"Moving to {{joint_positions: {list(ready_joint_positions)}}}")
     moveit2.move_to_configuration(ready_joint_positions)
     moveit2.wait_until_executed()
-    node.create_rate(2.0).sleep()
 
     # =============== BEGIN YOUR CODE HERE (POSE COMMANDS) ===============
     node.get_logger().info("Moving to pose goal!")
@@ -118,7 +118,6 @@ def main():
         if res == True:
             # Update goal position
             i = 0 if i == max_i else i + 1
-            node.create_rate(2.0).sleep()
 
     rclpy.shutdown()
     executor_thread.join()
