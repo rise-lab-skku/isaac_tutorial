@@ -1,12 +1,11 @@
 #launch Isaac Sim before any other imports
 #default first two lines in any standalone application
-from omni.isaac.kit import SimulationApp
+from isaacsim import SimulationApp
 simulation_app = SimulationApp({"headless": False}) # we can also run as headless.
 
-from omni.isaac.core import World
-from omni.isaac.core.objects import DynamicCuboid
+from isaacsim.core.api.objects import DynamicCuboid
+from isaacsim.core.api.world import World
 import numpy as np
-
 
 world = World()
 world.scene.add_default_ground_plane()

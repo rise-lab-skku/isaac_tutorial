@@ -1,14 +1,14 @@
 #launch Isaac Sim before any other imports
 #default first two lines in any standalone application
-from omni.isaac.kit import SimulationApp
+from isaacsim import SimulationApp
 simulation_app = SimulationApp({"headless": False}) # we can also run as headless.
 
 import os
 import numpy as np
-from omni.isaac.core import World
-from omni.isaac.wheeled_robots.controllers.differential_controller import DifferentialController
-from omni.isaac.wheeled_robots.robots import WheeledRobot
-from omni.isaac.core.utils.viewports import set_camera_view
+from isaacsim.core.api.world import World
+from isaacsim.core.utils.viewports import set_camera_view
+from isaacsim.robot.wheeled_robots.controllers.differential_controller import DifferentialController
+from isaacsim.robot.wheeled_robots.robots import WheeledRobot
 
 my_world = World(stage_units_in_meters=1.0)
 my_world.scene.add_default_ground_plane()
