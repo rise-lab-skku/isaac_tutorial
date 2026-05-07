@@ -12,7 +12,8 @@
 - Author
   - Jeongmin Jeon (nicky707@g.skku.edu)
   - Hong-ryul Jung (jung.hr.1206@g.skku.edu)
-- Revision date: August 27, 2024
+  - Jaeseog Won (jaeseogwon@g.skku.edu)
+- Revision date: May 07, 2026
 
 </div>
 <div style="flex:40%; padding-left:10px;">
@@ -41,22 +42,16 @@
 
 #### 1. Tutorial package
 
-Tested on Isaac Sim v4.10 and Isaac Lab v1.1.0
+Tested on Isaac Sim v5.1.0 and Isaac Lab v2.3.x
 
 ```bash
 sudo apt-get install git
 git clone https://github.com/rise-lab-skku/isaac_tutorial
 cd isaac_tutorial 
-source isaac_tutorial.sh
 ```
 
 #### 2. Isaac Lab
 ```bash
 git clone https://github.com/isaac-sim/IsaacLab.git
 cd IsaacLab
-git checkout 5444fa399
-cd source/extensions
-pip install --editable omni.isaac.lab
-pip install --editable omni.isaac.lab_assets
-pip install --editable omni.isaac.lab_tasks
 ```
