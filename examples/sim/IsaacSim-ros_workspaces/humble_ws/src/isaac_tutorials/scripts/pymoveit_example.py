@@ -10,8 +10,32 @@ from threading import Thread
 import rclpy
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
+from sensor_msgs.msg import JointState
 
 from pymoveit2 import MoveIt2
+
+def position_only_joint_state(joint_state: JointState) -> JointState:
+    start_state = JointState()
+    start_state.header = joint_state.header
+    start_state.name = list(joint_state.name)
+    start_state.position = list(joint_state.position)
+    return start_state
+
+
+def plan_and_execute(moveit2: MoveIt2, node: Node, **kwargs) -> bool:
+    if moveit2.joint_state is None:
+        node.get_logger().warning("Joint states are not available yet!")
+        return False
+
+    trajectory = moveit2.plan(
+        start_joint_state=position_only_joint_state(moveit2.joint_state),
+        **kwargs,
+    )
+    if trajectory is None:
+        return False
+
+    moveit2.execute(trajectory)
+    return moveit2.wait_until_executed()
 
 
 def main():
@@ -73,8 +97,7 @@ def main():
     # finger2: lower="0.0" (close) upper="0.04" (open)
     ready_joint_positions = [0.0, -0.785, 0.0, -2.356, 0.0, 1.571, 0.785]
     node.get_logger().info(f"Moving to {{joint_positions: {list(ready_joint_positions)}}}")
-    moveit2.move_to_configuration(ready_joint_positions)
-    moveit2.wait_until_executed()
+    plan_and_execute(moveit2, node, joint_positions=ready_joint_positions)
 
     # =============== BEGIN YOUR CODE HERE (POSE COMMANDS) ===============
     node.get_logger().info("Moving to pose goal!")
@@ -105,15 +128,16 @@ def main():
 
         # For cartesian plans, the plan is rejected if the fraction of the path that was completed
         # is less than `cartesian_fraction_threshold`. (range: [0.0, 1.0], 1.0 means 100% reached)
-        moveit2.move_to_pose(
+        res = plan_and_execute(
+            moveit2,
+            node,
             position=goal_p,
             quat_xyzw=goal_quat_xyzw,
             cartesian=False,
-            cartesian_max_step=0.002,
+            max_step=0.002,
             cartesian_fraction_threshold=0.0,
         )
         # Request in service: /compute_cartesian_path [moveit_msgs/srv/GetCartesianPath]
-        res = moveit2.wait_until_executed()
 
         if res == True:
             # Update goal position
@@ -122,7 +146,6 @@ def main():
     rclpy.shutdown()
     executor_thread.join()
     exit(0)
-
 
 if __name__ == "__main__":
     main()
